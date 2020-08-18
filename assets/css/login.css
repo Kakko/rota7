@@ -1,0 +1,99 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway+Dots&display=swap');
+
+* {
+    margin: 0;
+    padding:0;
+}
+.bg_login {
+    width: 100%;
+    height: 100vh;
+    background-color: #f1f1f1;
+}
+
+.login_form {
+    width: 400px;
+    height: 500px;
+    background-color: #FFF;
+    margin-left: calc(50% - 200px);
+    margin-top: 15vh;
+    position: absolute;
+    box-shadow: 0 0 10px #ccc;
+}
+
+.login_form h1 {
+    text-align: center;
+    padding-top: 50px;
+    font-family: 'Raleway Dots', cursive;
+}
+.login_data {
+    width: 90%;
+    height: 300px;
+    margin: auto;
+    margin-top: 75px;
+}
+
+.login_data label {
+    position: absolute;
+    background-color: #fff;
+    color: #29516C;
+    font-size: 14px;
+    margin-left: 10%;
+    margin-top: -12px;
+    font-weight: bold;
+    font-family: 'Raleway Dots', cursive;
+    padding-left: 3px;
+    padding-right: 3px;
+}
+.input_mk {
+    width: 100%;
+    height: 35px;
+    border: 1px solid #29516C;
+    border-radius: 5px;
+    margin-bottom: 50px;
+}
+.user_icon {
+    width: 10%;
+    height: 100%;
+    background-color: #29516C;
+    float: left;
+    background-image: url(../images/icons/user_icon.svg);
+    border-radius: 3px 0 0 3px;
+    background-repeat: no-repeat;
+    background-position-x: center;
+    background-position-y: center;
+}
+.pass_icon {
+    width: 10%;
+    height: 100%;
+    background-color: #29516C;
+    float: left;
+    background-image: url(../images/icons/pass_icon.svg);
+    border-radius: 3px 0 0 3px;
+    background-repeat: no-repeat;
+    background-position-x: center;
+    background-position-y: center;
+}
+.form_input input {
+    width:80%;
+    height: 32px;
+    float: left;
+    border: none;
+    border-radius: 5px;
+    padding-left: 20px;
+    outline: none;
+    font-size: 16px;
+}
+.sub_button {
+    width: 100%;
+    height: 35px;
+    background-color: #29516C;
+    margin-top: 25px;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-weight: bolder;
+    margin: auto;
+}
+.sub_button:hover {
+    background-color: #4183af;
+}
