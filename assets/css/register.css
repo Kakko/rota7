@@ -1,0 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway+Dots&display=swap');
+
+.sectionTop {
+    width: 100%;
+    height: 50px;
+    background: #FFF;
+    line-height: 50px;
+    font-size: 28px;
+    padding-left: 20px;
+    text-shadow: 1px 1px 1px lightgray;
+    box-shadow: 0 4px 2px -2px gray;
+    margin-bottom: -10px;
+}
+.productRegister {
+    width: 100%;
+    height: 60px;
+    margin-top: 20px;
+}
+.productRegister button {
+    float: left;
+    margin-left: 2%;
+    margin-top: 10px;
+}
+.productData {
+    width: 100%;
+    height: 800px;
+}

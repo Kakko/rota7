@@ -34,6 +34,7 @@
     height: calc(100vh - 60px);
     float: left;
     background-image: linear-gradient(#29516c, #002941);
+    position: absolute;
 }
 .menuItens {
     width: 90%;
@@ -59,4 +60,9 @@
 }
 .menuItens a {
     text-decoration: none;
+}
+.data {
+    width: 85%;
+    height: calc(100vh - 60px);
+    margin-left: 15%;
 }
