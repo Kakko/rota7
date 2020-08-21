@@ -24,8 +24,8 @@
                 <tr>
                     <th>Nome do Produto</th>
                     <th>Tipo do Produto</th>
-                    <th>Imposto total do Produto (%)</th>
-                    <th>Valor total do Produto</th>
+                    <th>Imposto total do Produto (R$)</th>
+                    <th>Valor total do Produto (R$)</th>
                     <th>Quantidade</th>
                 </tr>
             </thead>
