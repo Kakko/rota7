@@ -8,10 +8,12 @@ function addProdType() {
 
 function cadNewProdType(){
     let type = $("[name='newProdType']").val();
+    let tax = $("[name='taxProd']").val();
 
     $.post('', {
         reg_action: 'addNewProdType',
-        type: type
+        type: type,
+        tax: tax
     }, function(data){
         $('#cadType').html(data);
     })

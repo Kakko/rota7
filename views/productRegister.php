@@ -11,8 +11,8 @@
                 <th>Imagem</th>
 				<th>Nome do Produto</th>
 				<th>Tipo do Produto</th>
+                <th>Imposto do Produto (%)</th>
 				<th>Valor do Produto</th>
-                <th>Imposto do Produto</th>
                 <th>Quantidade</th>
 				<th>Ações</th>
 			</tr>
@@ -22,11 +22,11 @@
                 <tr>
                     <th><image style="width: 50px; height: 50px" src="<?php echo BASE_URL; ?>assets/images/products/<?php echo $prod['url']; ?>"></th>
                     <th><?php echo $prod['name']; ?></th>
-                    <th><?php echo $prod['type_id']; ?></th>
-                    <th><?php echo $prod['value']; ?></th>
-                    <th><?php echo $prod['tax']; ?></th>
+                    <th><?php echo $prod['tipo_nome']; ?></th>
+                    <th><?php echo $prod['tax']; ?> %</th>
+                    <th>R$ <?php echo number_format($prod['value'], 2); ?></th>
                     <th><?php echo $prod['qtd']; ?></th>
-                    <th><button class="btn btn-outline-danger btn-sm"><i class="fas fa-trash"></i></button></th>
+                    <th><a href="<?php echo BASE_URL; ?>register/delete_product?id=<?php echo $prod['id']; ?>"><button class="btn btn-outline-danger btn-sm"><i class="fas fa-trash"></i></button></a></th>
                 </tr>
             
             <?php endforeach; ?>
@@ -67,12 +67,8 @@
                             </div>
                         </div>
                         <div class="col-sm">
-                            <label>Imposto sobre o produto (%)</label>
-                            <input type="number" class="form-control form-control-sm" name="product_tax">
-                        </div>
-                        <div class="col-sm">
                             <label>Valor do Produto</label>
-                            <input type="number" class="form-control form-control-sm" name="product_value">
+                            <input type="text" class="form-control form-control-sm" name="product_value">
                         </div>
                         <div class="col-sm">
                             <label>Quantidade</label>
@@ -110,9 +106,13 @@
 				<!-- Modal body -->
 				<div class="modal-body" id="regNewProductType">
                     <div class="row">
-                        <div class="col-sm">
+                        <div class="col-sm-8">
                             <label>Novo Tipo de Produto</label>
                             <input type="text" class="form-control form-control-sm" name="newProdType">
+                        </div>
+                        <div class="col-sm-4">
+                            <label>Imposto (%)</label>
+                            <input type="text" class="form-control form-control-sm" name="taxProd">
                         </div>
                     </div>
 				</div>

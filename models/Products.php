@@ -4,7 +4,7 @@ class Products extends Model {
     public function fetchProducts(){
         $array = array();
         
-        $sql = $this->db->prepare("SELECT * FROM products ORDER BY id");
+        $sql = $this->db->prepare("SELECT type.type AS tipo_nome, type.tax as tax, products.* FROM products INNER JOIN type ON (products.type_id = type.id) ORDER BY products.id;");
         $sql->execute();
 
         if($sql->rowCount() > 0){
@@ -24,11 +24,12 @@ class Products extends Model {
         return $data;
     }
 
-    public function addNewProductType($type, $reg_date){
+    public function addNewProductType($type, $tax, $reg_date){
         $array = array();
 
-        $sql = $this->db->prepare("INSERT INTO type (type, reg_date) VALUES (:type, :reg_date)");
+        $sql = $this->db->prepare("INSERT INTO type (type, tax, reg_date) VALUES (:type, :tax, :reg_date)");
         $sql->bindValue(":type", $type);
+        $sql->bindValue(":tax", $tax);
         $sql->bindValue(":reg_date", $reg_date);
         $sql->execute();
 
@@ -59,7 +60,7 @@ class Products extends Model {
 
     }
 
-    public function addNewProduct($name, $type, $tax, $value, $qtd, $url, $reg_date){
+    public function addNewProduct($name, $type, $value, $qtd, $url, $reg_date){
         $new_name = '';
 
         if(!empty($url)){
@@ -71,16 +72,21 @@ class Products extends Model {
         }
 
 
-        $sql = $this->db->prepare("INSERT INTO products (name, type_id, tax, value, qtd, reg_date, url) VALUES (:name, :type_id, :tax, :value, :qtd, :reg_date, :url)");
+        $sql = $this->db->prepare("INSERT INTO products (name, type_id, value, qtd, reg_date, url) VALUES (:name, :type_id, :value, :qtd, :reg_date, :url)");
         $sql->bindValue(":name", $name);
         $sql->bindValue(":type_id", $type);
-        $sql->bindValue(":tax", $tax);
         $sql->bindValue(":value", $value);
         $sql->bindValue(":qtd", $qtd);
         $sql->bindValue(":url", $new_name);
         $sql->bindValue(":reg_date", $reg_date);
         $sql->execute();
 
+    }
+
+    public function deleteProduct($id){
+        $sql = $this->db->prepare("DELETE FROM products WHERE id = :id");
+        $sql->bindValue(":id", $id);
+        $sql->execute();
     }
 
 }

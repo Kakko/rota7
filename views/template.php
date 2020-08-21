@@ -8,6 +8,7 @@
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css">
 		<link rel="stylesheet" href="<?php echo BASE_URL; ?>/assets/css/template.css">
 		<link rel="stylesheet" href="<?php echo BASE_URL; ?>/assets/css/register.css">
+		<link rel="stylesheet" href="<?php echo BASE_URL; ?>/assets/css/sales.css">
 
 		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
@@ -26,7 +27,7 @@
 			<div class="menuItens">
 				<ul>
 					<a href="<?php echo BASE_URL; ?>register"><li>Cadastro</li></a>
-					<a href="<?php echo BASE_URL; ?>vendas"><li>Vendas</li></a>
+					<a href="<?php echo BASE_URL; ?>sales"><li>Vendas</li></a>
 					<a href="<?php echo BASE_URL; ?>login/logout"><li>Sair</li></a>
 				</ul>
 			</div>

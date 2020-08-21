@@ -9,10 +9,12 @@ class registerController extends Controller {
 
         if(!empty($_POST['reg_action'])){
             if($_POST['reg_action'] == 'addNewProdType'){
+
                 $type = addslashes($_POST['type']);
+                $tax = addslashes($_POST['tax']);
                 $reg_date = date("Y-m-d");
 
-                echo $products->addNewProductType($type, $reg_date);
+                echo $products->addNewProductType($type, $tax, $reg_date);
                 exit;
             }
 
@@ -20,7 +22,6 @@ class registerController extends Controller {
 
                 $name = addslashes($_POST['product_name']);
                 $type = addslashes($_POST['product_type']);
-                $tax = addslashes($_POST['product_tax']);
                 $value = addslashes($_POST['product_value']);
                 $qtd = addslashes($_POST['product_qtd']);
                 $reg_date = date("Y-m-d");
@@ -31,7 +32,7 @@ class registerController extends Controller {
                     $url = '';
                 }
 
-                $products->addNewProduct($name, $type, $tax, $value, $qtd, $url, $reg_date);
+                $products->addNewProduct($name, $type, $value, $qtd, $url, $reg_date);
                 header("Location: ".BASE_URL."register");
             }
         }
@@ -40,5 +41,14 @@ class registerController extends Controller {
         $data['prod_type'] = $products->fetchProdType();
         $data['user_name'] = $users->getName();
         $this->loadTemplate('productRegister', $data);
+    }
+
+    public function delete_product() {
+        $products = new Products();
+
+        $id = $_GET['id'];
+
+        $products->deleteProduct($id);
+        header("Location: ".BASE_URL."register");
     }
 }
