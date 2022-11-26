@@ -1,34 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt_br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Market System</title>
+    <title>Rota 7 - Gerenciamento</title>
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>assets/css/login.css">
 </head>
 <body>
-    <div class="bg_login">
-        <div class="login_form">
-            <h1>Sistema Market</h1>
-            <div class="login_data">
-                <form method="POST">    
-                    <label>E-mail:</label>
-                    <div class="input_mk">
-                        <div class="user_icon"></div>
-                        <div class="form_input">
-                            <input type="mail" name="email" autocomplete="off">
+    <div class="loginPage">
+        <div class="loginArea">
+            <form method="POST">
+                <input type="text" name="login_action" value="login" hidden>
+                <div class="loginTitle">
+                    <span>Rota 7 - Gerenciamento</span>
+                </div>
+                <div class="loginInput">
+                    <div class="inputArea">
+                        <div class="iconInput">
+                            <img src="<?php BASE_URL; ?>assets/icons/user_icon.svg">
+                        </div>
+                        <div class="inputField">
+                            <input type="text" class="loginField" name="email" placeholder="Digite seu e-mail" autocomplete="no">
                         </div>
                     </div>
-                    <label>Password:</label>
-                    <div class="input_mk">
-                        <div class="pass_icon"></div>
-                        <div class="form_input">
-                            <input type="password" name="password" autocomplete="off">
+                    <div class="inputArea">
+                        <div class="iconInput">
+                            <img src="<?php BASE_URL; ?>assets/icons/pass_icon.svg">
+                        </div>
+                        <div class="inputField">
+                            <input type="password" class="loginField" name="password" placeholder="Digite sua senha" autocomplete="no">
                         </div>
                     </div>
-                    <input type="submit" class="sub_button" value="ENTRAR">
-                </form>
-            </div>
+                </div>
+                <div class="loginButton">
+                    <button>Entrar</button>
+                </div>
+                <div class="loginDisclaimer">
+                    <span>Desenvolvido por TechWeb7</span>
+                </div>
+            </form>
         </div>
     </div>
 </body>

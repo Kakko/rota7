@@ -1,92 +1,68 @@
 <?php
 class Products extends Model {
 
-    public function fetchProducts(){
-        $array = array();
+    public function fetchAllProducts() {
+        $sql = $this->db->prepare("SELECT suppliers.name AS supplier, 
+                                    categories.name AS category, 
+                                    brands.name AS brand,
+                                    (SELECT url FROM product_images WHERE products.id = product_images.product_id LIMIT 1) AS url,
+                                    products.* FROM products 
+                                    LEFT JOIN suppliers ON (suppliers.id = products.supplier_id)
+                                    LEFT JOIN categories ON (categories.id = products.category_id)
+                                    LEFT JOIN brands ON (brands.id = products.brand_id)
+                                    ORDER BY name ASC");
+        $sql->execute();
+
+        if($sql->rowCount() > 0) {
+            $products = $sql->fetchAll(PDO::FETCH_ASSOC);
+
+            return $products;
+        } else {
+            return array();
+        }
+    }
+
+    public function addNewProd($name, $supplier_id, $category_id, $brand_id, $ean, $color, $qtd, $buy_cost, $sale_cost, $obs, $url) {
         
-        $sql = $this->db->prepare("SELECT type.type AS tipo_nome, type.tax as tax, products.* FROM products INNER JOIN type ON (products.type_id = type.id) ORDER BY products.id;");
-        $sql->execute();
+        $sql = $this->db->prepare("INSERT INTO products SET name = :name, supplier_id = :supplier_id, category_id = :category_id, brand_id = :brand_id, ean = :ean, color = :color, qtd = :qtd, buy_cost = :buy_cost, sale_cost = :sale_cost, obs = :obs, reg_date = now()");
 
-        if($sql->rowCount() > 0){
-            $array = $sql->fetchAll(PDO::FETCH_ASSOC);
-        }
-        return $array;
-    }
-
-    public function fetchProdType(){
-        $data = array();
-        $sql = $this->db->prepare("SELECT * FROM type ORDER BY type ASC");
-        $sql->execute();
-
-        if($sql->rowCount() > 0){
-            $data = $sql->fetchAll(PDO::FETCH_ASSOC);
-        }
-        return $data;
-    }
-
-    public function addNewProductType($type, $tax, $reg_date){
-        $array = array();
-
-        $sql = $this->db->prepare("INSERT INTO type (type, tax, reg_date) VALUES (:type, :tax, :reg_date)");
-        $sql->bindValue(":type", $type);
-        $sql->bindValue(":tax", $tax);
-        $sql->bindValue(":reg_date", $reg_date);
-        $sql->execute();
-
-        $sql = $this->db->prepare("SELECT * FROM type ORDER BY type ASC");
-        $sql->execute();
-
-        if($sql->rowCount() > 0){
-            $array = $sql->fetchAll(PDO::FETCH_ASSOC);
-        }
-
-        $result ='
-            <label>Tipo do Produto</label>
-            <div class="input-group">
-                <select class="form-control form-control-sm" name="product_type">
-                        <option readonly>Selecione...</option>';
-                    foreach($array as $s){
-                        $result .='
-                            <option value="'.$s['id'].'">'.$s['type'].'</option>';
-                    }
-                    $result .='
-                </select>
-                <div class="input-group-append">
-                    <button class="btn btn-outline-success btn-sm" type="button" onclick="addProdType()"><i class="fas fa-plus"></i></button>
-                </div>
-            </div>
-        ';
-        return $result;
-
-    }
-
-    public function addNewProduct($name, $type, $value, $qtd, $url, $reg_date){
-        $new_name = '';
-
-        if(!empty($url)){
-            $ext = strtolower(substr($_FILES['product_image']['name'], -4));
-            $new_name = md5(time(). rand(0,999)) . $ext;
-            $dir = './assets/images/products/';
-
-            move_uploaded_file($url['tmp_name'], $dir.$new_name);
-        }
-
-
-        $sql = $this->db->prepare("INSERT INTO products (name, type_id, value, qtd, reg_date, url) VALUES (:name, :type_id, :value, :qtd, :reg_date, :url)");
         $sql->bindValue(":name", $name);
-        $sql->bindValue(":type_id", $type);
-        $sql->bindValue(":value", $value);
+        $sql->bindValue(":supplier_id", $supplier_id);
+        $sql->bindValue(":category_id", $category_id);
+        $sql->bindValue(":brand_id", $brand_id);
+        $sql->bindValue(":ean", $ean);
+        $sql->bindValue(":color", $color);
         $sql->bindValue(":qtd", $qtd);
-        $sql->bindValue(":url", $new_name);
-        $sql->bindValue(":reg_date", $reg_date);
-        $sql->execute();
+        $sql->bindValue(":buy_cost", $buy_cost);
+        $sql->bindValue(":sale_cost", $sale_cost);
+        $sql->bindValue(":obs", $obs);
+        $sql-> execute(); 
 
+        $id = $this->db->lastInsertId();
+
+            if(!empty($url)){
+                for($i = 0; $i < count($_FILES['product_img']['name']); $i++) {
+                    $ext = strtolower(substr($_FILES['product_img']['name'][$i], -4));
+                    $new_name = md5(time(). rand(0,999)) . '.'.$ext;
+                    $dir = './assets/images/products/';
+    
+                    move_uploaded_file($url['tmp_name'][$i], $dir.$new_name);
+
+                    $sql = $this->db->prepare("INSERT INTO product_images SET url = :url, product_id = :product_id, reg_date = NOW()");
+                    $sql->bindValue(":url", $new_name);
+                    $sql->bindValue(":product_id", $id);
+                    $sql->execute();
+    
+                }
+            }
     }
 
-    public function deleteProduct($id){
+    public function deleteProduct($id) {
         $sql = $this->db->prepare("DELETE FROM products WHERE id = :id");
         $sql->bindValue(":id", $id);
-        $sql->execute();
+        if($sql->execute()) {
+            return 'Item excluido com sucesso';
+        }
     }
 
 }

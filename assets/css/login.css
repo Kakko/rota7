@@ -1,99 +1,120 @@
-@import url('https://fonts.googleapis.com/css2?family=Raleway+Dots&display=swap');
+/* GOOGLE FONTS */
+@import url('https://fonts.googleapis.com/css2?family=Titillium+Web:wght@400;600;700&display=swap');
 
 * {
     margin: 0;
-    padding:0;
+    padding: 0;
+    box-sizing: border-box;
 }
-.bg_login {
+
+.loginPage {
     width: 100%;
     height: 100vh;
-    background-color: #f1f1f1;
+    background-color: #212121;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.login_form {
-    width: 400px;
-    height: 500px;
-    background-color: #FFF;
-    margin-left: calc(50% - 200px);
-    margin-top: 15vh;
-    position: absolute;
-    box-shadow: 0 0 10px #ccc;
+.loginArea {
+    width: 500px;
+    height: 700px;
+    background-color: #353535;
+    box-shadow: 0 0 10px 35px #212121;
+    display: flex;
+    flex-direction: column;
+    border-radius: 5px;
 }
-
-.login_form h1 {
-    text-align: center;
-    padding-top: 50px;
-    font-family: 'Raleway Dots', cursive;
-}
-.login_data {
-    width: 90%;
+.loginTitle {
+    width: 100%;
     height: 300px;
-    margin: auto;
-    margin-top: 75px;
+    display: flex;
+    font-family: 'Titillium Web', sans-serif;
+    font-size: 28px;
+    padding-top: 180px;
+    color: goldenrod;
+    padding-left: 30px;
+    text-shadow: 0 0 2px #000;
 }
 
-.login_data label {
-    position: absolute;
-    background-color: #fff;
-    color: #29516C;
-    font-size: 14px;
-    margin-left: 10%;
-    margin-top: -12px;
-    font-weight: bold;
-    font-family: 'Raleway Dots', cursive;
-    padding-left: 3px;
-    padding-right: 3px;
-}
-.input_mk {
+.loginInput {
     width: 100%;
-    height: 35px;
-    border: 1px solid #29516C;
-    border-radius: 5px;
-    margin-bottom: 50px;
+    height: 100px;
+    background-color: #212121;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
-.user_icon {
+
+.inputArea {
+    width: 100%;
+    height: 50px;
+    border-bottom: 1px solid #484848;
+    border-top: 1px solid #484848;
+    border-right: 1px solid #484848;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.iconInput {
     width: 10%;
     height: 100%;
-    background-color: #29516C;
-    float: left;
-    background-image: url(../images/icons/user_icon.svg);
-    border-radius: 3px 0 0 3px;
-    background-repeat: no-repeat;
-    background-position-x: center;
-    background-position-y: center;
+    background-color: #e0ce2b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
-.pass_icon {
-    width: 10%;
+
+.inputField {
+    width: 90%;
     height: 100%;
-    background-color: #29516C;
-    float: left;
-    background-image: url(../images/icons/pass_icon.svg);
-    border-radius: 3px 0 0 3px;
-    background-repeat: no-repeat;
-    background-position-x: center;
-    background-position-y: center;
 }
-.form_input input {
-    width:80%;
-    height: 32px;
-    float: left;
+
+.loginField {
+    width: 100%;
+    height: 100%;
+    padding-left: 10px;
+    background: transparent;
+    color: goldenrod;
     border: none;
-    border-radius: 5px;
-    padding-left: 20px;
     outline: none;
-    font-size: 16px;
+    font-size: 18px;
+    font-family: 'Titillium Web', sans-serif;
 }
-.sub_button {
+.loginButton {
     width: 100%;
-    height: 35px;
-    background-color: #29516C;
-    margin-top: 25px;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    font-weight: bolder;
-    margin: auto;
+    height: 100px;
+    margin-top: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
-.sub_button:hover {
-    background-color: #4183af;
+.loginButton button {
+    width: 250px;
+    height: 50px;
+    background: transparent;
+    border: 3px solid goldenrod;
+    border-radius: 30px;
+    font-size: 18px;
+    color: goldenrod;
+    cursor: pointer;
+}
+.loginButton button:hover {
+    background-color: goldenrod;
+    color: #212121;
+    border: 3px solid gold;
+    transition: 0.3s ease;
+}
+
+.loginDisclaimer {
+    width: 100%;
+    height: 30px;
+    margin-top: 130px;
+    color: gold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Titillium Web', sans-serif;
 }
