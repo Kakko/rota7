@@ -21,7 +21,7 @@
                         <td style="width: 5%"><?php echo $category['id']; ?></td>
                         <td style="width: 90%"><?php echo $category['name']; ?></td>
                         <td style="width: 5%">
-                            <img src="<?php BASE_URL; ?>assets/icons/delete.png" style="width: 30px; cursor: pointer" onclick="deleteItem()">
+                            <img src="<?php BASE_URL; ?>assets/icons/delete.png" style="width: 30px; cursor: pointer" onclick="deleteItem(<?php echo $category['id']; ?>)">
                         </td>
                     </tr>
                 <?php endforeach; ?>

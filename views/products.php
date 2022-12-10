@@ -2,19 +2,19 @@
     <div class="topArea">
         <div class="filterArea">
             <label>Nome:</label>
-            <input type="text" class="form-control form-control-sm">
+            <input type="text" class="form-control form-control-sm" onkeyup="searchProductName(this)">
         </div>
         <div class="filterArea">
-            <label>Fornecedor:</label>
-            <input type="text" class="form-control form-control-sm">
+            <!-- <label>Fornecedor:</label>
+            <input type="text" class="form-control form-control-sm"> -->
         </div>
         <div class="filterArea">
-            <label>Tipo:</label>
-            <input type="text" class="form-control form-control-sm">
+            <!-- <label>Tipo:</label>
+            <input type="text" class="form-control form-control-sm"> -->
         </div>
         <div class="filterArea">
-            <label>???:</label>
-            <input type="text" class="form-control form-control-sm">
+            <!-- <label>???:</label>
+            <input type="text" class="form-control form-control-sm"> -->
         </div>
         <div class="filterArea">
             <button class="btn btn-sm btn-success">Pesquisar</button>
@@ -30,20 +30,23 @@
                     <th>NOME</th>
                     <th>FORNECEDOR</th>
                     <th>QUANTIDADE</th>
+                    <th>DATA DA COMPRA</th>
                     <th>VALOR</th>
                     <th>AÇÕES</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="products_area">
                 <?php foreach($products as $product): ?>
+                    <?php $product['url'] == null ? $img = BASE_URL.'assets/icons/no-image.png' : $img = BASE_URL.'assets/images/products/'.$product['url']; ?>
                     <tr>
-                        <td style="width: 100px; height: 80px"><img style="height: 100%" src="<?php echo BASE_URL; ?>assets/images/products/<?php echo $product['url']; ?>"></td>
+                        <td style="width: 100px; height: 80px"><img style="height: 100%" src="<?php echo $img ?>"></td>
                         <td><?php echo $product['name']; ?></td>
                         <td><?php echo $product['supplier']; ?></td>
                         <td><?php echo $product['qtd']; ?></td>
+                        <td><?php echo date("d/m/Y", strtotime($product['buy_date'])); ?></td>
                         <td>R$ <?php echo number_format($product['sale_cost'],2,',','.'); ?></td>
                         <td>
-                            <img src="<?php BASE_URL; ?>assets/icons/edit.png" style="width: 30px; margin-right: 5px; cursor: pointer" onclick="editItem(<?php echo $product['id']; ?>)">
+                            <img src="<?php BASE_URL; ?>assets/icons/edit.png" style="width: 30px; margin-right: 5px; cursor: pointer" onclick="edit_item(<?php echo $product['id']; ?>)">
                             <img src="<?php BASE_URL; ?>assets/icons/delete.png" style="width: 30px; cursor: pointer" onclick="deleteItem(<?php echo $product['id']; ?>)">
                         </td>
                     </tr>
@@ -53,7 +56,7 @@
     </div>
 </div>
 
-<!-- Modal -->
+<!-- Modal Add Product-->
 <div class="modal fade" id="addProduct" tabindex="-1" role="dialog" aria-labelledby="addProduct" aria-hidden="true">
   <div class="modal-dialog modal-xl" role="document">
     <div class="modal-content">
@@ -71,7 +74,7 @@
                     <input type="text" value="addProduct" name="product_action" hidden>
                     <input type="text" class="form-control form-control-sm" name="product_name" placeholder="Digite o nome do produto" required>
                 </div>
-                <div class="col-sm-3">
+                <div class="col-sm-2">
                     <label>Fornecedor</label>
                     <select class="form-control form-control-sm" name="product_supplier">
                         <option value="">Selecione...</option>
@@ -80,7 +83,7 @@
                         <?php endforeach; ?>
                     </select>
                 </div>
-                <div class="col-sm-3">
+                <div class="col-sm-2">
                     <label>Categoria</label>
                     <select class="form-control form-control-sm" name="product_category">
                         <option value="">Selecione...</option>
@@ -88,6 +91,10 @@
                             <option value="<?php echo $category['id']; ?>"><?php echo $category['name']; ?></option>
                         <?php endforeach; ?>
                     </select>
+                </div>
+                <div class="col-sm-2">
+                    <label>Data da compra</label>
+                    <input type="date" class="form-control form-control-sm" name="buy_date">
                 </div>
             </div>
             <div class="row">
@@ -139,6 +146,22 @@
             <input type="submit" class="btn btn-primary">
             </div>
         </form>
+    </div>
+  </div>
+</div>
+
+<!-- Modal edit Product-->
+<div class="modal fade" id="edit_Product" tabindex="-1" role="dialog" aria-labelledby="editProduct" aria-hidden="true">
+  <div class="modal-dialog modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Editar Produto</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="edit_modal_body">
+        
     </div>
   </div>
 </div>

@@ -18,6 +18,8 @@
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 		<script src="<?php BASE_URL; ?>assets/js/template.js"></script>
 		<script src="<?php BASE_URL; ?>assets/js/utils.js"></script>
+		<script src="<?php BASE_URL; ?>assets/js/products.js"></script>
+		<script src="<?php BASE_URL; ?>assets/js/suppliers.js"></script>
 	</head>
 	<body>
 		<div class="topBar">

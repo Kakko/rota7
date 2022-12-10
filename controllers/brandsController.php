@@ -17,9 +17,20 @@ class brandsController extends Controller {
         if(!empty($_POST['action']) && isset($_POST['action'])) {
             if($_POST['action'] == 'add') {
                 $name = addslashes($_POST['name']);
+                
+                echo $brand->addNewBrand($name);
 
-                $brand->addNewBrand($name);
-                header('Location: ' . BASE_URL . 'brands');
+                header("Location: " . BASE_URL . "brands");
+                exit;
+            }
+        }
+        //UTILITIES
+        if(!empty($_POST['utility_action']) && isset($_POST['utility_action'])) {
+            //DELETE ITEM
+            if($_POST['utility_action'] == 'delete_item') {
+                $id = addslashes($_POST['id']);
+
+                echo $brand->deleteBrand($id);
                 exit;
             }
         }

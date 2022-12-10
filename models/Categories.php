@@ -18,6 +18,14 @@ class Categories extends Model {
         }
 
         return $categories;
+    }
 
+    public function deleteBrand($id) {
+
+        $sql = $this->db->prepare("DELETE FROM categories WHERE id = :id");
+        $sql->bindValue(":id", $id);
+        if($sql->execute()) {
+            return 'Item excluido com sucesso';
+        }
     }
 }

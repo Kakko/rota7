@@ -5,6 +5,9 @@ class Controller {
 
 	public function __construct() {
 		global $config;
+
+		global $db;
+		$this->db = $db;
 	}
 	
 	public function loadView($viewName, $viewData = array()) {

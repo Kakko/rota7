@@ -24,6 +24,17 @@ class categoriesController extends Controller {
             }
         }
 
+        //UTILITIES
+        if(!empty($_POST['utility_action']) && isset($_POST['utility_action'])) {
+            //DELETE ITEM
+            if($_POST['utility_action'] == 'delete_item') {
+                $id = addslashes($_POST['id']);
+
+                echo $categories->deleteBrand($id);
+                exit;
+            }
+        }
+
         $data['categories'] = $categories->fetchCategories();
         $data['user_name'] = $users->getName();
         $this->loadTemplate('categories', $data);

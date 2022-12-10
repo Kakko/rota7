@@ -5,7 +5,7 @@
             <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#addBrand">Cadastrar</button>
         </div>
     </div>
-    <div class="title">Cadastro de Fornecedores</div>
+    <div class="title">Cadastro de Marcas</div>
     <div class="showArea">
         <table class="table table-striped">
             <thead class="thead-dark">
@@ -21,7 +21,7 @@
                         <td style="width: 5%"><?php echo $brand['id']; ?></td>
                         <td style="width: 90%"><?php echo $brand['name']; ?></td>
                         <td style="width: 5%">
-                            <img src="<?php BASE_URL; ?>assets/icons/delete.png" style="width: 30px; cursor: pointer" onclick="deleteItem()">
+                            <img src="<?php BASE_URL; ?>assets/icons/delete.png" style="width: 30px; cursor: pointer" onclick="deleteItem(<?php echo $brand['id']; ?>)">
                         </td>
                     </tr>
                 <?php endforeach; ?>
