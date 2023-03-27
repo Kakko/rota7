@@ -16,7 +16,7 @@ if(ENVIRONMENT == 'development') {
 	$config['dbname'] = 'u320113050_rota7';
 	$config['host'] = 'rota7.net.br';
 	$config['dbuser'] = 'u320113050_root';
-	$config['dbpass'] = 'KakkoSX21280075*';
+	$config['dbpass'] = 'Kakko_21280075*';
 }
 
 $db = new PDO("mysql:dbname=".$config['dbname'].";host=".$config['host'], $config['dbuser'], $config['dbpass']);

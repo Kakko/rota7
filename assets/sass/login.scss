@@ -1,0 +1,65 @@
+//GOOGLE FONTS
+@import url('https://fonts.googleapis.com/css2?family=Titillium+Web:wght@400;700&display=swap');
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.loginContainer {
+    width: 100%;
+    height: 100vh;
+    background: linear-gradient(180deg, #686868, #212121);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .loginArea {
+        width: 30%;
+        height: 50%;
+        background-color: #FFF;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        .titleArea {
+            width: 100%;
+            height: 20%;
+            font-family: 'Titillium Web', sans-serif;
+            color: #212121;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .inputArea {
+            width: 90%;
+            height: 65%;
+            font-family: 'Titillium Web', sans-serif;
+            margin-top: 50px;
+            .loginInput {
+                width: 100%;
+                height: 15%;
+                display: flex;
+                align-items: center;
+                img {
+                    height: 25px;
+                }
+            }
+            .loginButton {
+                height: 30px;
+                margin-top: 50px;
+            }
+        }
+        
+        .footerArea {
+            width: 100%;
+            height: 15%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            span {
+                font-family: 'Titillium Web', sans-serif;
+                font-size: 12px;
+            }
+        }
+    }
+}

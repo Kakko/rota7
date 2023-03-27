@@ -1,20 +1,5 @@
 <?php
 class Suppliers extends Model {
-
-    public function fetchSuppliers() {
-        $sql = $this->db->prepare("SELECT * FROM suppliers ORDER BY name ASC");
-        $sql->execute();
-
-        if($sql->rowCount() > 0) {
-            $suppliers = $sql->fetchAll(PDO::FETCH_ASSOC);
-            
-            return $suppliers;
-        } else {
-            return array();
-        }
-
-    }
-
     public function register($name, $corporate_name, $cnpj, $email, $address, $state_id, $city_id, $phone, $obs) {
         $sql = $this->db->prepare("INSERT INTO suppliers SET name = :name, corporate_name = :corporate_name, cnpj = :cnpj, email = :email, address = :address, state_id = :state_id, city_id = :city_id, phone = :phone, obs = :obs, reg_date = NOW()");
         $sql->bindValue(":name", $name);
@@ -26,7 +11,11 @@ class Suppliers extends Model {
         $sql->bindValue(":city_id", $city_id);
         $sql->bindValue(":phone", $phone);
         $sql->bindValue(":obs", $obs);
-        $sql->execute();
+        if($sql->execute()){
+            return true;
+        } else {
+            return false;
+        };
     }
 
     public function update($id, $name, $corporate_name, $cnpj, $email, $address, $state_id, $city_id, $phone, $obs) {
@@ -42,6 +31,34 @@ class Suppliers extends Model {
         $sql->bindValue(":obs", $obs);
         $sql->bindValue(":id", $id);
         $sql->execute();
+    }
+
+    public function fetchSuppliers() {
+        $sql = $this->db->prepare("SELECT cidades.cidade AS city_name, suppliers.* FROM suppliers 
+        LEFT JOIN cidades ON (cidades.id = suppliers.city_id)
+        ORDER BY name ASC");
+        $sql->execute();
+
+        if($sql->rowCount() > 0) {
+            $suppliers = $sql->fetchAll(PDO::FETCH_ASSOC);
+        }
+        
+        return $suppliers;
+    }
+
+    public function reloadSupplier() {
+        $data = '';
+        $sql = $this->db->prepare("SELECT * FROM suppliers ORDER BY name ASC");
+        $sql->execute();
+
+        if($sql->rowCount() > 0) {
+            $suppliers = $sql->fetchAll(PDO::FETCH_ASSOC);
+            foreach($suppliers AS $supply) {
+                $data .='<option value="'.$supply['id'].'">'.$supply['name'].'</option>';
+            }
+        }
+        
+        return $data;
     }
 
     public function edit_supplier($id) {
@@ -115,13 +132,11 @@ class Suppliers extends Model {
                     </div>
                 </div>
             ';
-
             return $data;
-
         }
     }
 
-    public function deleteBrand($id) {
+    public function deleteSupplier($id) {
         $sql = $this->db->prepare("DELETE FROM suppliers WHERE id = :id");
         $sql->bindValue(":id", $id);
         if($sql->execute()) {

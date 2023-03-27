@@ -1,79 +1,16 @@
 <?php
 class Products extends Model {
 
-    public function fetchAllProducts() {
-        $sql = $this->db->prepare("SELECT suppliers.name AS supplier, 
-                                    categories.name AS category, 
-                                    brands.name AS brand,
-                                    (SELECT url FROM product_images WHERE products.id = product_images.product_id LIMIT 1) AS url,
-                                    products.* FROM products 
-                                    LEFT JOIN suppliers ON (suppliers.id = products.supplier_id)
-                                    LEFT JOIN categories ON (categories.id = products.category_id)
-                                    LEFT JOIN brands ON (brands.id = products.brand_id)
-                                    ORDER BY name ASC");
-        $sql->execute();
-
-        if($sql->rowCount() > 0) {
-            $products = $sql->fetchAll(PDO::FETCH_ASSOC);
-
-            return $products;
-        } else {
-            return array();
-        }
-    }
-
-    public function searchItem($name) {
-        $data = '';
-        $sql = $this->db->prepare("SELECT suppliers.name AS supplier, 
-                                    categories.name AS category, 
-                                    brands.name AS brand,
-                                    (SELECT url FROM product_images WHERE products.id = product_images.product_id LIMIT 1) AS url,
-                                    products.* FROM products 
-                                    LEFT JOIN suppliers ON (suppliers.id = products.supplier_id)
-                                    LEFT JOIN categories ON (categories.id = products.category_id)
-                                    LEFT JOIN brands ON (brands.id = products.brand_id)
-                                    WHERE products.name LIKE :name
-                                    ORDER BY products.name ASC");
-        $sql->bindValue(":name", '%'.$name.'%');
-        $sql->execute();
-
-        if($sql->rowCount() > 0) {
-            $products = $sql->fetchAll(PDO::FETCH_ASSOC);
-
-            foreach($products as $product){
-                $product['url'] == null ? $img = BASE_URL.'assets/icons/no-image.png' : $img = BASE_URL.'assets/images/products/'.$product['url'];
-                $data .='
-                    <tr>
-                        <td style="width: 100px; height: 80px"><img style="height: 100%" src="'.$img.'"></td>
-                        <td>'.$product['name'].'</td>
-                        <td>'.$product['supplier'].'</td>
-                        <td>'.$product['qtd'].'</td>
-                        <td>'.date("d/m/Y", strtotime($product['buy_date'])).'</td>
-                        <td>R$ '.number_format($product['sale_cost'],2,',','.').'</td>
-                        <td>
-                            <img src="'.BASE_URL.'assets/icons/edit.png" style="width: 30px; margin-right: 5px; cursor: pointer" onclick="edit_item('.$product['id'].')">
-                            <img src="'.BASE_URL.'assets/icons/delete.png" style="width: 30px; cursor: pointer" onclick="deleteItem('.$product['id'].')">
-                        </td>
-                    </tr>
-                ';
-            }
-        } else {
-            $data .='NENHUM REGISTRO ENCONTRADO';
-        }
-
-        return $data;
-    }
-
-    public function addNewProd($name, $supplier_id, $category_id, $buy_date, $brand_id, $ean, $color, $qtd, $buy_cost, $sale_cost, $obs, $url) {
+    public function addNewProd($name, $supplier_id, $category_id, $buy_date, $brand_id, $cod, $color, $qtd, $buy_cost, $sale_cost, $obs, $url) {
         
-        $sql = $this->db->prepare("INSERT INTO products SET name = :name, supplier_id = :supplier_id, category_id = :category_id, buy_date = :buy_date, brand_id = :brand_id, ean = :ean, color = :color, qtd = :qtd, buy_cost = :buy_cost, sale_cost = :sale_cost, obs = :obs, reg_date = now()");
+        $sql = $this->db->prepare("INSERT INTO products SET name = :name, supplier_id = :supplier_id, category_id = :category_id, buy_date = :buy_date, brand_id = :brand_id, cod = :cod, color = :color, qtd = :qtd, buy_cost = :buy_cost, sale_cost = :sale_cost, obs = :obs, reg_date = now()");
 
         $sql->bindValue(":name", $name);
         $sql->bindValue(":supplier_id", $supplier_id);
         $sql->bindValue(":category_id", $category_id);
         $sql->bindValue(":buy_date", $buy_date);
         $sql->bindValue(":brand_id", $brand_id);
-        $sql->bindValue(":ean", $ean);
+        $sql->bindValue(":cod", $cod);
         $sql->bindValue(":color", $color);
         $sql->bindValue(":qtd", $qtd);
         $sql->bindValue(":buy_cost", $buy_cost);
@@ -86,54 +23,8 @@ class Products extends Model {
         if(!empty($url)){
             for($i = 0; $i < count($_FILES['product_img']['name']); $i++) {
                 $ext = strtolower(substr($_FILES['product_img']['name'][$i], -4));
-                $new_name = md5(time(). rand(0,999)) . '.'.$ext;
-                $dir = './assets/images/products/';
-
-                move_uploaded_file($url['tmp_name'][$i], $dir.$new_name);
-
-                $sql = $this->db->prepare("INSERT INTO product_images SET url = :url, product_id = :product_id, reg_date = NOW()");
-                $sql->bindValue(":url", $new_name);
-                $sql->bindValue(":product_id", $id);
-                $sql->execute();
-
-            }
-        }
-    }
-
-    public function editProd($id, $name, $supplier_id, $category_id, $buy_date, $brand_id, $ean, $color, $qtd, $buy_cost, $sale_cost, $obs, $url) {
-        
-        $sql = $this->db->prepare("UPDATE products SET 
-            name = :name, 
-            supplier_id = :supplier_id, 
-            category_id = :category_id, 
-            brand_id = :brand_id, 
-            buy_date = :buy_date,
-            ean = :ean, 
-            color = :color, 
-            qtd = :qtd, 
-            buy_cost = :buy_cost, 
-            sale_cost = :sale_cost, 
-            obs = :obs
-            WHERE id = :id");
-
-        $sql->bindValue(":id", $id);
-        $sql->bindValue(":name", $name);
-        $sql->bindValue(":supplier_id", $supplier_id);
-        $sql->bindValue(":category_id", $category_id);
-        $sql->bindValue(":buy_date", $buy_date);
-        $sql->bindValue(":brand_id", $brand_id);
-        $sql->bindValue(":ean", $ean);
-        $sql->bindValue(":color", $color);
-        $sql->bindValue(":qtd", $qtd);
-        $sql->bindValue(":buy_cost", $buy_cost);
-        $sql->bindValue(":sale_cost", $sale_cost);
-        $sql->bindValue(":obs", $obs);
-        $sql-> execute(); 
-
-        if(!empty($url)){
-            for($i = 0; $i < count($_FILES['product_img']['name']); $i++) {
-                $ext = strtolower(substr($_FILES['product_img']['name'][$i], -4));
-                $new_name = md5(time(). rand(0,999)) . '.'.$ext;
+                $new_name = md5(time(). rand(0,999)) . $ext;
+                
                 $dir = './assets/images/products/';
 
                 move_uploaded_file($url['tmp_name'][$i], $dir.$new_name);
@@ -184,11 +75,9 @@ class Products extends Model {
             $data .='
                 <form method="POST" enctype="multipart/form-data">
                     <div class="row">
-                        <div class="col-sm-6">
-                            <label>Nome</label>
-                            <input type="text" value="editProduct" name="product_action" hidden>
-                            <input type="text" value="'.$item['id'].'" name="product_id" hidden>
-                            <input type="text" class="form-control form-control-sm" name="product_name" value="'.$item['name'].'">
+                        <div class="col-sm-2">
+                            <label>Código</label>
+                            <input type="number" class="form-control form-control-sm" name="product_cod" value="'.$item['cod'].'">
                         </div>
                         <div class="col-sm-2">
                             <label>Fornecedor</label>
@@ -201,6 +90,12 @@ class Products extends Model {
                                 $data .='
                             </select>
                         </div>
+                        <div class="col-sm-6">
+                            <label>Nome</label>
+                            <input type="text" value="editProduct" name="action" hidden>
+                            <input type="text" value="'.$item['id'].'" name="product_id" hidden>
+                            <input type="text" class="form-control form-control-sm" name="product_name" value="'.$item['name'].'">
+                        </div>
                         <div class="col-sm-2">
                             <label>Categoria</label>
                             <select class="form-control form-control-sm" name="product_category">
@@ -212,12 +107,12 @@ class Products extends Model {
                                 $data .='
                             </select>
                         </div>
+                    </div>
+                    <div class="row">
                         <div class="col-sm-2">
                             <label>Data de compra</label>
                             <input type="date" class="form-control form-control-sm" name="buy_date" value="'.$item['buy_date'].'">
                         </div>
-                    </div>
-                    <div class="row">
                         <div class="col-sm-2">
                             <label>Marca</label>
                             <select class="form-control form-control-sm" name="brand">
@@ -228,10 +123,6 @@ class Products extends Model {
                                 }
                                 $data .='
                             </select>
-                        </div>
-                        <div class="col-sm-2">
-                            <label>EAN</label>
-                            <input type="number" class="form-control form-control-sm" name="product_ean" value="'.$item['ean'].'" required>
                         </div>
                         <div class="col-sm-2">
                             <label>Cor</label>
@@ -279,14 +170,60 @@ class Products extends Model {
                     </div>
                     </div>
                     <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <input type="submit" class="btn btn-primary">
+                    <input type="submit" class="btn btn-primary" value="Salvar">
                     </div>
                 </form>
             ';
         }
 
         return $data;
+    }
+
+    public function editProd($id, $name, $supplier_id, $category_id, $buy_date, $brand_id, $cod, $color, $qtd, $buy_cost, $sale_cost, $obs, $url) {
+        
+        $sql = $this->db->prepare("UPDATE products SET 
+            name = :name, 
+            supplier_id = :supplier_id, 
+            category_id = :category_id, 
+            brand_id = :brand_id, 
+            buy_date = :buy_date,
+            cod = :cod, 
+            color = :color, 
+            qtd = :qtd, 
+            buy_cost = :buy_cost, 
+            sale_cost = :sale_cost, 
+            obs = :obs
+            WHERE id = :id");
+
+        $sql->bindValue(":id", $id);
+        $sql->bindValue(":name", $name);
+        $sql->bindValue(":supplier_id", $supplier_id);
+        $sql->bindValue(":category_id", $category_id);
+        $sql->bindValue(":buy_date", $buy_date);
+        $sql->bindValue(":brand_id", $brand_id);
+        $sql->bindValue(":cod", $cod);
+        $sql->bindValue(":color", $color);
+        $sql->bindValue(":qtd", $qtd);
+        $sql->bindValue(":buy_cost", $buy_cost);
+        $sql->bindValue(":sale_cost", $sale_cost);
+        $sql->bindValue(":obs", $obs);
+        $sql-> execute(); 
+
+        if(!empty($url)){
+            for($i = 0; $i < count($_FILES['product_img']['name']); $i++) {
+                $ext = strtolower(substr($_FILES['product_img']['name'][$i], -4));
+                $new_name = md5(time(). rand(0,999)) . '.'.$ext;
+                $dir = './assets/images/products/';
+
+                move_uploaded_file($url['tmp_name'][$i], $dir.$new_name);
+
+                $sql = $this->db->prepare("INSERT INTO product_images SET url = :url, product_id = :product_id, reg_date = NOW()");
+                $sql->bindValue(":url", $new_name);
+                $sql->bindValue(":product_id", $id);
+                $sql->execute();
+
+            }
+        }
     }
 
     public function delete_product_image($id) {
@@ -327,12 +264,50 @@ class Products extends Model {
         }
     }
 
-    public function deleteProduct($id) {
-        $sql = $this->db->prepare("DELETE FROM products WHERE id = :id");
-        $sql->bindValue(":id", $id);
-        if($sql->execute()) {
-            return 'Item excluido com sucesso';
+    public function fetchAllProducts() {
+        $sql = $this->db->prepare("SELECT suppliers.name AS supplier, 
+                                    categories.name AS category, 
+                                    brands.name AS brand,
+                                    (SELECT url FROM product_images WHERE products.id = product_images.product_id LIMIT 1) AS url,
+                                    products.* FROM products 
+                                    LEFT JOIN suppliers ON (suppliers.id = products.supplier_id)
+                                    LEFT JOIN categories ON (categories.id = products.category_id)
+                                    LEFT JOIN brands ON (brands.id = products.brand_id)
+                                    ORDER BY name ASC LIMIT 5");
+        $sql->execute();
+
+        if($sql->rowCount() > 0) {
+            $products = $sql->fetchAll(PDO::FETCH_ASSOC);
+
+            return $products;
+        } else {
+            return array();
         }
     }
 
+    public function fetchProductCount() {
+        $sql = $this->db->prepare("SELECT * FROM products");
+        $sql->execute();
+
+        if($sql->rowCount() > 0) {
+            $count = count($sql->fetchAll(PDO::FETCH_ASSOC));
+        } else {
+            $count = 0;
+        }
+
+        return $count;
+    }
+    
+    public function verify_product($product_code, $supplier_id) {
+        $sql = $this->db->prepare("SELECT * FROM products WHERE cod = :cod AND supplier_id = :supplier_id");
+        $sql->bindValue(":cod", $product_code);
+        $sql->bindValue(":supplier_id", $supplier_id);
+        $sql->execute();
+
+        if($sql->rowCount() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

@@ -1,43 +1,50 @@
 <?php
-
 class brandsController extends Controller {
 
     public function index() {
+
+    }
+
+    public function add_brand() {
         $data = array();
-        $users = new Users();
-        $users->setLoggedUser();
-
-        $brand = new Brands();
-
-        //VERIFY IF THE USER IS LOGGED, IF NOT, REDIRECT TO LOGIN PAGE
-        if($users->isLogged() == false){
+        $login = new Login();
+        $brands = new Brands();
+        
+        if($login->isLogged() == false) {
             header("Location:".BASE_URL."login");
         }
 
-        if(!empty($_POST['action']) && isset($_POST['action'])) {
+        if(!empty($_POST) && isset($_POST)) {
             if($_POST['action'] == 'add') {
-                $name = addslashes($_POST['name']);
-                
-                echo $brand->addNewBrand($name);
+                $name = addslashes($_POST['brand_name']);
 
-                header("Location: " . BASE_URL . "brands");
+                $brands->add_brand($name);
+                header('Location: ' . BASE_URL . 'brands/search_brands');
                 exit;
             }
         }
-        //UTILITIES
-        if(!empty($_POST['utility_action']) && isset($_POST['utility_action'])) {
-            //DELETE ITEM
-            if($_POST['utility_action'] == 'delete_item') {
-                $id = addslashes($_POST['id']);
-
-                echo $brand->deleteBrand($id);
-                exit;
-            }
-        }
-
-        $data['brands'] = $brand->fetchBrands();
-        $data['user_name'] = $users->getName();
-        $this->loadTemplate('brands', $data);
+        
+        $this->loadTemplate('brands/add_brand', $data);
     }
 
+    public function search_brands() {
+        $data = array();
+        $brands = new Brands();
+        $login = new Login();
+
+        if($login->isLogged() == false) {
+            header("Location:".BASE_URL."login");
+        }
+
+        if(!empty($_POST) && isset($_POST)) {
+            if($_POST['action'] == 'delete') {
+                $id = addslashes($_POST['id']);
+                echo $brands->delete_brand($id);
+                exit;
+            }
+        }
+
+        $data['brands'] = $brands->fetchBrands();
+        $this->loadTemplate('brands/search_brands', $data);
+    }
 }

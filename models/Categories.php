@@ -1,15 +1,7 @@
 <?php
 class Categories extends Model {
 
-    public function addNewCategory($name) {
-        $sql = $this->db->prepare("INSERT INTO categories SET name = :name, reg_date = NOW()");
-        $sql->bindValue(":name", $name);
-        $sql->execute();
-    }
-
     public function fetchCategories() {
-        $categories = array();
-
         $sql = $this->db->prepare("SELECT * FROM categories ORDER BY name ASC");
         $sql->execute();
 
@@ -20,12 +12,31 @@ class Categories extends Model {
         return $categories;
     }
 
-    public function deleteBrand($id) {
+    public function addCategory($name) {
 
-        $sql = $this->db->prepare("DELETE FROM categories WHERE id = :id");
-        $sql->bindValue(":id", $id);
-        if($sql->execute()) {
-            return 'Item excluido com sucesso';
+        $sql = $this->db->prepare("INSERT INTO categories SET name = :name, reg_date = now()");
+        $sql->bindValue(":name", $name);
+        if($sql->execute()){
+            return true;
+        } else {
+            return false;
+        };
+    }
+
+    public function reloadCategory() {
+        $data = '';
+
+        $sql = $this->db->prepare("SELECT * FROM categories ORDER BY name ASC");
+        $sql->execute();
+
+        if($sql->rowCount() > 0) {
+            $categories = $sql->fetchAll(PDO::FETCH_ASSOC);
+            $data .='<option value="">Selecione...</option>';
+            foreach($categories AS $cat) {
+                $data .='<option value="'.$cat['id'].'">'.$cat['name'].'</option>';
+            }
         }
+
+        return $data;
     }
 }

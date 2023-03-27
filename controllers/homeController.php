@@ -3,15 +3,12 @@ class homeController extends Controller {
 
     public function index() {
         $data = array();
-        $users = new Users();
-        $users->setLoggedUser();
+        $login = new Login();
 
-        //VERIFY IF THE USER IS LOGGED, IF NOT, REDIRECT TO LOGIN PAGE
-        if($users->isLogged() == false){
+        if($login->isLogged() == false) {
             header("Location:".BASE_URL."login");
         }
         
-        $data['user_name'] = $users->getName();
         $this->loadTemplate('home', $data);
     }
 

@@ -1,7 +1,9 @@
-function showAddArea() {
-    if(document.getElementById('addArea').style.height !== '350px') {
-        document.getElementById('addArea').style.height = '350px';
+function showDropDown(ele) {
+    if(document.getElementById(ele.id+'_drop').style.height == "") {
+        document.getElementById(ele.id+'_drop').style.height = "100px";
+        document.getElementById(ele.id).style.background = "#26354A";
     } else {
-        document.getElementById('addArea').style.height = '0px';
+        document.getElementById(ele.id+'_drop').style.height = "";
+        document.getElementById(ele.id).style.background = "#31435d";
     }
 }

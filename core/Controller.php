@@ -8,6 +8,7 @@ class Controller {
 
 		global $db;
 		$this->db = $db;
+
 	}
 	
 	public function loadView($viewName, $viewData = array()) {
