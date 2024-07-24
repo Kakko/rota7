@@ -11,7 +11,6 @@ class clientsController extends Controller {
         $login = new Login();
         $utils = new Utils();
         $clients = new Clients();
-        $bicicles = new Bicicles();
 
         if($login->isLogged() == false) {
             header("Location:".BASE_URL."login");
@@ -22,24 +21,12 @@ class clientsController extends Controller {
                 $name = addslashes($_POST['name']);
                 $address = addslashes($_POST['address']);
                 $cpf = addslashes($_POST['cpf']);
-                $birth_date = addslashes($_POST['birth_date']);
                 $email = addslashes($_POST['email']);
                 $phone = addslashes($_POST['phone']);
-                $phone2 = addslashes($_POST['phone2']);
                 $state_id = addslashes($_POST['state_id']);
                 $city_id = addslashes($_POST['city_id']);
-                $brand = addslashes($_POST['brand']);
-                $model = addslashes($_POST['model']);
-                $hoop = addslashes($_POST['hoop']);
-                $color = addslashes($_POST['color']);
-                $serial_number = addslashes($_POST['serial']);
-                $basket = addslashes($_POST['basket']);
-                $garupa = addslashes($_POST['garupa']);
-                $garupa_almofada = addslashes($_POST['garupa_almofada']);
-                $pedana = addslashes($_POST['pedana']);
-                $obs = addslashes($_POST['obs']);
 
-                echo $clients->addClient($name, $address, $cpf, $birth_date, $email, $phone, $phone2, $state_id, $city_id, $brand, $model, $hoop, $color, $serial_number, $basket, $garupa, $garupa_almofada, $pedana, $obs);
+                echo $clients->addClient($name, $address, $cpf, $email, $phone, $state_id, $city_id);
                 exit;
             }
 
@@ -74,25 +61,12 @@ class clientsController extends Controller {
                 $name = addslashes($_POST['name']);
                 $address = addslashes($_POST['address']);
                 $cpf = addslashes($_POST['cpf']);
-                $birth_date = addslashes($_POST['birth_date']);
                 $email = addslashes($_POST['email']);
                 $phone = addslashes($_POST['phone']);
-                $phone2 = addslashes($_POST['phone2']);
                 $state_id = addslashes($_POST['state_id']);
                 $city_id = addslashes($_POST['city_id']);
-                $b_id = addslashes($_POST['b_id']);
-                $brand = addslashes($_POST['brand']);
-                $model = addslashes($_POST['model']);
-                $hoop = addslashes($_POST['hoop']);
-                $color = addslashes($_POST['color']);
-                $serial_number = addslashes($_POST['serial']);
-                $basket = addslashes($_POST['basket']);
-                $garupa = addslashes($_POST['garupa']);
-                $garupa_almofada = addslashes($_POST['garupa_almofada']);
-                $pedana = addslashes($_POST['pedana']);
-                $obs = addslashes($_POST['obs']);
 
-                echo $clients->updClient($id, $name, $address, $cpf, $birth_date, $email, $phone, $phone2, $state_id, $city_id, $b_id, $brand, $model, $hoop, $color, $serial_number, $basket, $garupa, $garupa_almofada, $pedana, $obs);
+                echo $clients->updClient($id, $name, $address, $cpf, $email, $phone, $state_id, $city_id);
                 exit;
             }
 
@@ -102,6 +76,29 @@ class clientsController extends Controller {
                 echo $utils->fetchCities($id);
                 exit;
             }
+
+            if($_POST['action'] == 'search_client_name') {
+                $client_name = addslashes($_POST['client_name']);
+
+                echo $clients->search_client_name($client_name);
+                exit;
+            }
+
+            if($_POST['action'] == 'fetchSearchedClientData') {
+                $id = addslashes($_POST['id']);
+
+                echo $clients->fetchSearchedClientData($id);
+                exit;
+            }
+
+            if($_POST['action'] == 'deleteClient') {
+                $id = addslashes($_POST['id']);
+
+                echo $clients->deleteClient($id);
+                exit;
+            }
+
+
         }
         
 

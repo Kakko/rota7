@@ -305,9 +305,70 @@ class Products extends Model {
         $sql->execute();
 
         if($sql->rowCount() > 0) {
-            return true;
+            return 1;
         } else {
-            return false;
+            return 0;
+        }
+    }
+
+    public function search_prod($prod_name) {
+        $data = '';
+
+        $sql = $this->db->prepare("SELECT suppliers.name AS supplier, 
+                                    categories.name AS category, 
+                                    brands.name AS brand,
+                                    (SELECT url FROM product_images WHERE products.id = product_images.product_id LIMIT 1) AS url,
+                                    products.* FROM products 
+                                    LEFT JOIN suppliers ON (suppliers.id = products.supplier_id)
+                                    LEFT JOIN categories ON (categories.id = products.category_id)
+                                    LEFT JOIN brands ON (brands.id = products.brand_id)
+                                    WHERE products.name LIKE :name
+                                    ORDER BY name ASC");
+        $sql->bindValue(":name", '%'.$prod_name.'%');
+        $sql->execute();
+
+        if($sql->rowCount() > 0) {
+            $prod_data = $sql->fetchAll(PDO::FETCH_ASSOC);
+
+            foreach($prod_data AS $product){
+                $product['url'] == null ? $img = BASE_URL.'assets/icons/no-image.png' : $img = BASE_URL.'assets/images/products/'.$product['url'];
+                $data .='
+                    <tr>
+                        <td style="width: 100px; height: 80px"><img style="height: 100%" src="'.$img.'"></td>
+                        <td>'.$product['name'].'</td>
+                        <td>'.$product['supplier'].'</td>
+                        <td>'.$product['qtd'].'</td>
+                        <td>R$ '.number_format($product['sale_cost'],2,',','.').'</td>
+                        <td>
+                            <div class="dropdown">
+                                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Opções
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                    <li><a class="dropdown-item" href="#" onclick="edit_prod('.$product['id'].')">Editar</a></li>
+                                    <li><a class="dropdown-item" href="#" onclick="delete_product('.$product['id'].')">Excluir</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                ';
+            }
+        }
+
+        return $data;
+    }
+
+    public function delete_product($id) {
+        $sql = $this->db->prepare("DELETE FROM product_images WHERE product_id = :id");
+        $sql->bindValue(":id", $id);
+        $sql->execute();
+
+        $sql = $this->db->prepare("DELETE FROM products WHERE id = :id");
+        $sql->bindValue(":id", $id);
+        if($sql->execute()) {
+            return 'Produto excluído com sucesso';
+        } else {
+            return 'Erro ao excluir produto. Entre em contato com o administrador do sistema';
         }
     }
 }

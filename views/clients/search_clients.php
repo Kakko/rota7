@@ -6,9 +6,9 @@
         <div class="row">
             <div class="col-sm-5" style="margin-left: 10px">
                 <div class="input-group mb-3">
-                    <input type="text" class="form-control" placeholder="Pesquisar" aria-label="Pesquisar" aria-describedby="basic-addon2">
-                    <div class="input-group-append">
-                        <button class="btn btn-primary" type="button">Buscar</button>
+                    <input type="text" class="form-control" placeholder="Nome do Cliente" aria-label="Pesquisar" aria-describedby="basic-addon2" name="search_client_name" onkeyup="search_client_name()">
+                    <div class="search_box" id="search_box">
+
                     </div>
                 </div>
             </div>
@@ -16,7 +16,6 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th>Id</th>
                     <th>Nome</th>
                     <th>Endereço</th>
                     <th>Telefone</th>
@@ -24,13 +23,12 @@
                     <th></th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="client_list">
                 <?php foreach($clients AS $client): ?>
                     <tr>
-                        <td><?php echo $client['id']; ?></td>
                         <td><?php echo $client['name']; ?></td>
                         <td><?php echo $client['address']; ?></td>
-                        <td><?php echo $client['phone1']; ?></td>
+                        <td><?php echo $client['phone']; ?></td>
                         <td><?php echo $client['city_name']; ?></td>
                         <th>
                             <div class="dropdown">
@@ -39,7 +37,7 @@
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                     <li><a class="dropdown-item" href="#" onclick="openEditModal(<?php echo $client['id']; ?>)">Editar</a></li>
-                                    <li><a class="dropdown-item" href="#">Excluir</a></li>
+                                    <li><a class="dropdown-item" href="#" onclick="deleteClient(<?php echo $client['id']; ?>)">Excluir</a></li>
                                 </ul>
                             </div>
                         </th>

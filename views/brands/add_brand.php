@@ -24,7 +24,7 @@
                         <div class="col-sm">
                             <label>Nome da Marca:</label>
                             <input type="text" name="action" value="add" hidden>
-                            <input type="text" class="form-control form-control-sm" name="brand_name">
+                            <input type="text" class="form-control form-control-sm" name="brand_name" onchange="verifyBrand(this)">
                         </div>
                     </div>
                     <div class="submitButtonArea" style="width: 99%; height: 50px; display: flex; align-items: center; justify-content: right">
@@ -36,3 +36,4 @@
     </div>
 </div>
 <script src="<?php echo BASE_URL; ?>assets/js/supplier.js"></script>
+<script src="<?php echo BASE_URL; ?>assets/js/utils.js"></script>

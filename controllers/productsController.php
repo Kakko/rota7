@@ -15,9 +15,9 @@ class productsController extends Controller {
 
         if(!empty($_POST) && isset($_POST)) {
 
-            if($_POST['product_action'] == 'addProduct' || $_POST['product_action'] == 'editProduct') {
+            if($_POST['action'] == 'addProduct' || $_POST['action'] == 'editProduct') {
                 
-                $_POST['product_action'] == 'editProduct' ? $id = addslashes($_POST['product_id']) : '' ;
+                $_POST['action'] == 'editProduct' ? $id = addslashes($_POST['product_id']) : '' ;
                 $name = addslashes($_POST['product_name']);
                 $supplier_id = addslashes($_POST['product_supplier']);
                 $category_id = addslashes($_POST['product_category']);
@@ -43,9 +43,9 @@ class productsController extends Controller {
                 try {
                     $this->db->beginTransaction();
 
-                    if ($_POST['product_action'] == 'addProduct') {
+                    if ($_POST['action'] == 'addProduct') {
                         $product->addNewProd($name, $supplier_id, $category_id, $buy_date, $brand_id, $cod, $color, $qtd, $buy_cost, $sale_cost, $obs, $url);
-                    } elseif ($_POST['product_action'] == 'editProduct') {
+                    } elseif ($_POST['action'] == 'editProduct') {
                         $product->editProd($id, $name, $supplier_id, $category_id, $buy_date, $brand_id, $cod, $color, $qtd, $buy_cost, $sale_cost, $obs, $url);
                     }
 
@@ -59,6 +59,7 @@ class productsController extends Controller {
             }
 
             if($_POST['action'] == 'verify_product') {
+
                 $product_code = addslashes($_POST['product_code']);
                 $supplier_id = addslashes($_POST['supplier_id']);
 
@@ -120,6 +121,13 @@ class productsController extends Controller {
             if($_POST['action'] == 'reloadBrands') {
 
                 echo $brands->reloadBrands();
+                exit;
+            }
+
+            if($_POST['action'] == 'verifyCat') {
+                $name = addslashes($_POST['name']);
+
+                echo $util->verifyCat($name);
                 exit;
             }
         }
@@ -191,6 +199,20 @@ class productsController extends Controller {
                 $id = addslashes($_POST['id']);
 
                 echo $product->delete_product_image($id);
+                exit;
+            }
+
+            if($_POST['action'] == 'search_product') {
+                $prod_name = addslashes($_POST['product_name']);
+
+                echo $product->search_prod($prod_name);
+                exit;
+            }
+
+            if($_POST['action'] == 'delete_product') {
+                $id = addslashes($_POST['id']);
+
+                echo $product->delete_product($id);
                 exit;
             }
         }

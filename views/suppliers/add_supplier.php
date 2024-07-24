@@ -32,7 +32,7 @@
                         </div>
                         <div class="col-sm">
                             <label>CNPJ:</label>
-                            <input type="text" class="form-control form-control-sm" name="cnpj">
+                            <input type="text" class="form-control form-control-sm cnpj" name="cnpj" onchange="verifySupplier(this)">
                         </div>
                         <div class="col-sm">
                             <label>E-mail:</label>
@@ -61,7 +61,7 @@
                         </div>
                         <div class="col-sm-2">
                             <label>Telefone:</label>
-                            <input type="text" class="form-control form-control-sm" name="phone" placeholder="(XX) X XXXX-XXXX">
+                            <input type="text" class="form-control form-control-sm phone_with_ddd" name="phone" placeholder="(XX) X XXXX-XXXX">
                         </div>
                     </div>
                     <div class="row">

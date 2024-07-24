@@ -45,6 +45,13 @@ class suppliersController extends Controller {
                 echo $utils->fetchCities($id);
                 exit;
             }
+
+            if($_POST['action'] == 'verifySupplier') {
+                $cnpj = addslashes($_POST['cnpj']);
+    
+                echo $utils->verifySupplier($cnpj);
+                exit;
+            }
         }
 
         $data['states'] = $utils->fetchStates();
@@ -84,6 +91,13 @@ class suppliersController extends Controller {
                 $id = addslashes($_POST['id']);
 
                 echo $suppliers->edit_supplier($id);
+                exit;
+            }
+
+            if($_POST['action'] == 'deleteSupplier') {
+                $id = addslashes($_POST['id']);
+
+                echo $suppliers->deleteSupplier($id);
                 exit;
             }
         }

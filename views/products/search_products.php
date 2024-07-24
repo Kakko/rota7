@@ -7,10 +7,7 @@
         <div class="row">
             <div class="col-sm-5" style="margin-left: 10px">
                 <div class="input-group mb-3">
-                    <input type="text" class="form-control" placeholder="Pesquisar" aria-label="Pesquisar" aria-describedby="basic-addon2">
-                    <div class="input-group-append">
-                        <button class="btn btn-primary" type="button">Buscar</button>
-                    </div>
+                    <input type="text" class="form-control" id="search_prod" placeholder="Pesquisar" aria-label="Pesquisar" aria-describedby="basic-addon2" onkeyup="search_product(this)">
                 </div>
             </div>
         </div>
@@ -25,7 +22,7 @@
                     <th></th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="prod_list">
                 <?php foreach($products as $product): ?>
                     <?php $product['url'] == null ? $img = BASE_URL.'assets/icons/no-image.png' : $img = BASE_URL.'assets/images/products/'.$product['url']; ?>
                     <tr>
@@ -41,13 +38,13 @@
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                     <li><a class="dropdown-item" href="#" onclick="edit_prod(<?php echo $product['id']; ?>)">Editar</a></li>
-                                    <li><a class="dropdown-item" href="#">Excluir</a></li>
+                                    <li><a class="dropdown-item" href="#" onclick="delete_product(<?php echo $product['id']; ?>)">Excluir</a></li>
                                 </ul>
                             </div>
                         </td>
                     </tr>
                 <?php endforeach; ?>
-                <nav aria-label="Page navigation example">
+                <!-- <nav aria-label="Page navigation example">
                     <ul class="pagination">
                         <li class="page-item"><a class="page-link" href="#">Previous</a></li>
                         <li class="page-item"><a class="page-link" href="<?php echo BASE_URL; ?>products/search_product?page=1&limit=5">1</a></li>
@@ -55,7 +52,7 @@
                         <li class="page-item"><a class="page-link" href="#">3</a></li>
                         <li class="page-item"><a class="page-link" href="#">Next</a></li>
                     </ul>
-                </nav>
+                </nav> -->
             </tbody>
         </table>
     </div>

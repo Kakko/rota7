@@ -9,6 +9,7 @@ if(ENVIRONMENT == 'development') {
 	define("BASE_URL", "http://localhost/rota7/");
 	$config['dbname'] = 'rota7';
 	$config['host'] = 'localhost';
+	$config['port'] = '3306';
 	$config['dbuser'] = 'root';
 	$config['dbpass'] = 'M0nkey_615243';
 } else {
@@ -16,7 +17,7 @@ if(ENVIRONMENT == 'development') {
 	$config['dbname'] = 'u320113050_rota7';
 	$config['host'] = 'rota7.net.br';
 	$config['dbuser'] = 'u320113050_root';
-	$config['dbpass'] = 'Kakko_21280075*';
+	$config['dbpass'] = 'Kakko21280075*';
 }
 
 $db = new PDO("mysql:dbname=".$config['dbname'].";host=".$config['host'], $config['dbuser'], $config['dbpass']);

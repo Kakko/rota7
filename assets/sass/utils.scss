@@ -165,3 +165,30 @@
         }
     }
 }
+
+.search_box {
+    width: 85%;
+    height: 300px;
+    background-color: #EEE;
+    border: 1px solid #CCC;
+    border-radius: 5px;
+    position: absolute;
+    display: none;
+    flex-direction: column;
+    margin-top: 40px;
+    .search_res {
+        width: 100%;
+        height: 30px;
+        font-size: 14px;
+        padding-left: 10px;
+        background-color: #FFF;
+        border: 1px solid #CCC;
+        margin-bottom: 1px;
+        cursor: pointer;
+        line-height: 30px;
+        &:hover {
+            background-color: #00a400;
+        }
+    }
+
+}

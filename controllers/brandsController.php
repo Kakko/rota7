@@ -9,6 +9,7 @@ class brandsController extends Controller {
         $data = array();
         $login = new Login();
         $brands = new Brands();
+        $utils = new Utils();
         
         if($login->isLogged() == false) {
             header("Location:".BASE_URL."login");
@@ -22,7 +23,15 @@ class brandsController extends Controller {
                 header('Location: ' . BASE_URL . 'brands/search_brands');
                 exit;
             }
+
+            if($_POST['action'] == 'verifyBrand') {
+                $name = addslashes($_POST['name']);
+
+                echo $utils->verifyBrand($name);
+                exit;
+            }
         }
+        
         
         $this->loadTemplate('brands/add_brand', $data);
     }

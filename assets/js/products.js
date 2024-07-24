@@ -1,7 +1,3 @@
-$(document).ready(function () {
-    $('.money').mask('000.000.000.000.000,00', {reverse: true});
-});
-
 function openSupplierModal() {
     $('#addSupplier').modal('show');
 }
@@ -217,6 +213,7 @@ function fetchCities() {
 
 //VERIFY IF PRODUCT IS ALREADY REGISTERED
 function verifyProduct() {
+
     let supplier_id = document.getElementById('supplier_id').value;
     let product_code = document.getElementById('product_code').value;
 
@@ -224,19 +221,72 @@ function verifyProduct() {
 
     formData.append('supplier_id', supplier_id)
     formData.append('product_code', product_code)
-    formData.append('product_action', 'verify_product')
+    formData.append('action', 'verify_product')
 
     const xhr = new XMLHttpRequest();
     xhr.open('POST', window.location.href, true);
     xhr.onreadystatechange = () => {
         if(xhr.readyState == 4){
             if(xhr.status == 200){
-                if(xhr.responseText == true) {
+                console.log(xhr.responseText)
+                if(xhr.responseText == 1) {
                     alert('PRODUTO JÁ CADASTRADO NESSE FORNECEDOR');
+                    document.getElementById('supplier_id').value = '';
                     return false;
                 }
             }
         }
     }
     xhr.send(formData);
+}
+
+//SEARCH PRODUCTS
+function search_product(ele) {
+
+    let product_name = ele.value;
+
+    var formData = new FormData();
+
+    formData.append('product_name', product_name)
+    formData.append('action', 'search_product')
+
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', window.location.href, true);
+    xhr.onreadystatechange = () => {
+        if(xhr.readyState == 4){
+            if(xhr.status == 200){
+                console.log(xhr.responseText)
+                document.getElementById('prod_list').innerHTML = xhr.responseText
+            }
+        }
+    }
+    xhr.send(formData);
+}
+
+//DELETE PRODUCT
+function delete_product(id) {
+    let c = confirm('Deseja excluir o produtol?')
+
+    if(c == true ) {
+        var formData = new FormData();
+
+        formData.append('id', id)
+        formData.append('action', 'delete_product')
+    
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', window.location.href, true);
+        xhr.onreadystatechange = () => {
+            if(xhr.readyState == 4){
+                if(xhr.status == 200){
+                    console.log(xhr.responseText)
+                    alert(xhr.responseText);
+                    window.location.reload();
+                }
+            }
+        }
+        xhr.send(formData);
+    } else {
+        return false;
+    }
+
 }

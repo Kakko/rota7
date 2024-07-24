@@ -39,7 +39,7 @@
                         </div>
                         <div class="col-sm-6">
                             <label>Nome</label>
-                            <input type="text" value="addProduct" name="product_action" hidden>
+                            <input type="text" value="addProduct" name="action" hidden>
                             <input type="text" class="form-control form-control-sm" name="product_name" placeholder="Digite o nome do produto" id="product_id" required>
                         </div>
                         <div class="col-sm-2">
@@ -132,7 +132,7 @@
                 </div>
                 <div class="col-sm">
                     <label>CNPJ:</label>
-                    <input type="text" class="form-control form-control-sm" name="cnpj">
+                    <input type="text" class="form-control form-control-sm" name="cnpj" onchange="verifySupplier(this)">
                 </div>
                 <div class="col-sm">
                     <label>E-mail:</label>
@@ -190,7 +190,7 @@
         <div class="modal-body">
             <div class="row">
                 <span>Nome da Categoria</span>
-                <input type="text" class="form-control form-control-sm" name="cat_name">
+                <input type="text" class="form-control form-control-sm" name="cat_name" onchange="verifyCat(this)">
             </div>
             </div>          
                 <div class="modal-footer">
@@ -212,7 +212,7 @@
         <div class="modal-body">
             <div class="row">
                 <span>Nome da Marca</span>
-                <input type="text" class="form-control form-control-sm" name="brand_name">
+                <input type="text" class="form-control form-control-sm" name="brand_name" onchange="verifyBrand(this)">
             </div>
             </div>          
                 <div class="modal-footer">
@@ -224,3 +224,4 @@
 </div>
 
 <script src="<?php echo BASE_URL; ?>assets/js/products.js"></script>
+<script src="<?php echo BASE_URL; ?>assets/js/utils.js"></script>

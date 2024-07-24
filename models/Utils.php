@@ -31,4 +31,54 @@ class Utils extends Model {
 
         return $data;
     }
+
+    public function verifySupplier($cnpj) {
+        $sql = $this->db->prepare("SELECT * FROM suppliers WHERE cnpj = :cnpj");
+        $sql->bindValue(":cnpj", $cnpj);
+        $sql->execute();
+
+        if($sql->rowCount() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function verifyBrand($name) {
+
+        $sql = $this->db->prepare("SELECT * FROM brands WHERE name = :name");
+        $sql->bindValue(":name", $name);
+        $sql->execute();
+
+        if($sql->rowCount() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function verifyCat($name) {
+
+        $sql = $this->db->prepare("SELECT * FROM categories WHERE name = :name");
+        $sql->bindValue(":name", $name);
+        $sql->execute();
+
+        if($sql->rowCount() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function verifyCPF($cpf) {
+        $sql = $this->db->prepare("SELECT * FROM clients WHERE cpf = :cpf");
+        $sql->bindValue(":cpf", $cpf);
+        $sql->execute();
+
+        if($sql->rowCount() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

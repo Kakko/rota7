@@ -39,7 +39,7 @@
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                     <li><a class="dropdown-item" href="#" onclick="openEditModal(<?php echo $supplier['id']; ?>)">Editar</a></li>
-                                    <li><a class="dropdown-item" href="#">Excluir</a></li>
+                                    <li><a class="dropdown-item" href="#" onclick="deleteSupplier(<?php echo $supplier['id']; ?>)">Excluir</a></li>
                                 </ul>
                             </div>
                         </th>
